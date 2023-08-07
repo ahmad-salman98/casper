@@ -52,13 +52,14 @@ const TableStickyContacts = ({ thead, data }) => {
   const handleStatusChange = async (statusValue, rowId) => {
     console.log('statusValue', statusValue, 'rowId', rowId)
     try {
+      const token = localStorage.getItem('token')
+
       let config = {
         method: 'put',
         maxBodyLength: Infinity,
         url: `https://casper.ezcredit.com.kw/api/ffadmin/message/${rowId}/${statusValue}`,
         headers: {
-          Authorization:
-            'Bearer Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDEvYXBpL2F1dGgvdmVyaWZ5IiwiaWF0IjoxNjkxMjQ0NTA3LCJleHAiOjE3MjI3ODA1MDcsIm5iZiI6MTY5MTI0NDUwNywianRpIjoiQXFicjNORklyRUVybGtMViIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.FsElNkll0JY0nSmYjXJHBKElWkSCZ2eXGwu6WTJIPZs'
+          Authorization: `Bearer ${token}`
         }
       }
 
