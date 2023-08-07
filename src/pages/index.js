@@ -25,6 +25,7 @@ import SalesByCountries from 'src/views/dashboard/SalesByCountries'
 import { useDispatch, useSelector } from 'react-redux'
 import { logIn } from 'src/redux/features/auth-slice'
 import { firebaseCloudMessaging } from 'utils/firebase'
+import { useTranslations } from 'next-intl'
 
 const Dashboard = () => {
   // ----------------------- Variables -----------------------
@@ -50,9 +51,13 @@ const Dashboard = () => {
       })
   }
 
+  const t = useTranslations('home')
+
   return (
     <ApexChartWrapper>
-      <button className='fixed bottom-5 right-5' onClick={getFcm}>Get Fcm</button>
+      <button className='fixed bottom-5 right-5' onClick={getFcm}>
+        {t('title')}
+      </button>
       <Grid container spacing={6}>
         {/* Statistics  */}
         <Grid item xs={12}>
@@ -88,3 +93,12 @@ const Dashboard = () => {
 }
 
 export default Dashboard
+
+// ** Get Static Props
+export const getStaticProps = async ({ locale }) => {
+  return {
+    props: {
+      messages: require(`../../locales/${locale}.json`)
+    }
+  }
+}

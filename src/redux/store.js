@@ -5,6 +5,7 @@ import tablesReducer from './features/tablesData'
 import driversReducer from './features/driversSlice'
 import carsReducer from './features/carsSlice'
 import ridesReducer from './features/rideSlice'
+import contactsReducer from './features/contactsSlice'
 
 export const store = configureStore({
   reducer: {
@@ -13,6 +14,7 @@ export const store = configureStore({
     tablesReducer,
     driversReducer,
     carsReducer,
-    ridesReducer
+    ridesReducer,
+    contactsReducer
   }
 })

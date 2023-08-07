@@ -16,14 +16,17 @@ import Modal from '@mui/material/Modal'
 import ViewDrivers from 'src/components/drivers/ViewDrivers'
 import { useEffect } from 'react'
 import ViewRide from 'src/components/rides/ViewRide'
-import { MenuItem, Select } from '@mui/material'
+import { Menu, MenuItem, Select } from '@mui/material'
+import axios from 'axios'
 
-const TableStickyHeader = ({ thead, data }) => {
+const TableStickyContacts = ({ thead, data }) => {
   // -------------------------- States --------------------------
   const [page, setPage] = useState(0)
   const [rowsPerPage, setRowsPerPage] = useState(10)
   const [showModal, setShowModal] = useState(false)
   const [info, setInfo] = useState({})
+  const [statusDropdownOpen, setStatusDropdownOpen] = useState(false)
+  const [anchorEl, setAnchorEl] = useState(null) // Initialize anchorEl state to null
 
   // -------------------------- Variables --------------------------
   const generalColumns = useSelector(state => state.tablesReducer.thead.general)
@@ -46,13 +49,29 @@ const TableStickyHeader = ({ thead, data }) => {
     setPage(0)
   }
 
-  const handleStatusChange = async (event, rowId) => {
-    const newStatusCode = event.target.value
-
+  const handleStatusChange = async (statusValue, rowId) => {
+    console.log('statusValue', statusValue, 'rowId', rowId)
     try {
-      await axios.put(`http://192.168.0.154:8001/api/messages/${rowId}/${newStatusCode}`)
+      let config = {
+        method: 'put',
+        maxBodyLength: Infinity,
+        url: `https://casper.ezcredit.com.kw/api/ffadmin/message/${rowId}/${statusValue}`,
+        headers: {
+          Authorization:
+            'Bearer Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOi8vMTI3LjAuMC4xOjgwMDEvYXBpL2F1dGgvdmVyaWZ5IiwiaWF0IjoxNjkxMjQ0NTA3LCJleHAiOjE3MjI3ODA1MDcsIm5iZiI6MTY5MTI0NDUwNywianRpIjoiQXFicjNORklyRUVybGtMViIsInN1YiI6IjEiLCJwcnYiOiIyM2JkNWM4OTQ5ZjYwMGFkYjM5ZTcwMWM0MDA4NzJkYjdhNTk3NmY3In0.FsElNkll0JY0nSmYjXJHBKElWkSCZ2eXGwu6WTJIPZs'
+        }
+      }
 
-      // setDataSource(prevData => prevData.map(row => (row.id === rowId ? { ...row, status_value: newStatusCode } : row)))
+      axios
+        .request(config)
+        .then(response => {
+          console.log(JSON.stringify(response.data))
+        })
+        .catch(error => {
+          console.log(error)
+        })
+
+      setStatusDropdownOpen(false)
     } catch (error) {
       console.error('Error updating message status:', error)
     }
@@ -102,19 +121,34 @@ const TableStickyHeader = ({ thead, data }) => {
     )
   }
 
-  const StatusSelect = ({ value, rowId }) => {
-    const handleChange = (event) => {
-      handleStatusChange(event, rowId);
-    };
+  const StatusButton = ({ statusValue, rowId }) => {
+    const handleStatusClick = event => {
+      // Open the dropdown
+      setStatusDropdownOpen(true)
+      setAnchorEl(event.currentTarget)
+    }
+
+    const handleClose = () => {
+      // Close the dropdown
+      setStatusDropdownOpen(false)
+    }
 
     return (
-      <Select value={value} onChange={handleChange} label='Status'>
-        <MenuItem value='1'>Pending</MenuItem>
-        <MenuItem value='2'>In Contact</MenuItem>
-        <MenuItem value='3'>Completed</MenuItem>
-      </Select>
-    );
-  };
+      <>
+        <select
+          labelId='demo-simple-select-label'
+          aria-label='Status'
+          id='demo-simple-select'
+          label={getStatusLabel(statusValue)}
+          onChange={handleStatusChange}
+        >
+          <option onClick={() => handleStatusChange('1', rowId)}>{getStatusLabel('1')}</option>
+          <option onClick={() => handleStatusChange('2', rowId)}>{getStatusLabel('2')}</option>
+          <option onClick={() => handleStatusChange('3', rowId)}>{getStatusLabel('3')}</option>
+        </select>
+      </>
+    )
+  }
 
   // -------------------------- Render --------------------------
 
@@ -130,6 +164,9 @@ const TableStickyHeader = ({ thead, data }) => {
                   {column.label}
                 </TableCell>
               ))}
+              <TableCell key={'status'} align={'left'} sx={{ minWidth: 150 }}>
+                Status
+              </TableCell>
             </TableRow>
           </TableHead>
 
@@ -149,7 +186,25 @@ const TableStickyHeader = ({ thead, data }) => {
                             {value && !isNaN(new Date(value)) ? new Date(value).toLocaleTimeString() : 'Not available'}
                           </TableCell>
                         )
-                      } else
+                      } else if (column.key === 'status_value') {
+                        // Render the status select in the status column
+                        return (
+                          <TableCell key={column} align={'left'}>
+                            <select
+                              labelId='demo-simple-select-label'
+                              aria-label='Status'
+                              id='demo-simple-select'
+                              value={row.status_value}
+                              onChange={e => handleStatusChange(e.target.value, row.id)}
+                            >
+                              <option value='1'>Pending</option>
+                              <option value='2'>In Contact</option>
+                              <option value='3'>Completed</option>
+                            </select>
+                          </TableCell>
+                        )
+                      } else {
+                        // Render other cells
                         return (
                           <TableCell key={column} align={'left'}>
                             {/* check if a button should appear  */}
@@ -165,7 +220,13 @@ const TableStickyHeader = ({ thead, data }) => {
                             )}
                           </TableCell>
                         )
+                      }
                     })}
+
+                    <TableCell align='left'>
+                      {/* Render the status buttons for each row */}
+                      <StatusButton statusValue={row.status_value} rowId={row.id} />
+                    </TableCell>
                   </TableRow>
                 )
               })}
@@ -192,4 +253,4 @@ const TableStickyHeader = ({ thead, data }) => {
   )
 }
 
-export default TableStickyHeader
+export default TableStickyContacts
