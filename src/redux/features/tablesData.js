@@ -46,6 +46,14 @@ const initialState = {
       { label: 'population', key: 'population' },
       { label: 'size', key: 'size' },
       { label: 'density', key: 'density' }
+    ],
+    contacts: [
+      { label: 'ID', key: 'id' },
+      {label: 'Date Sent', key: 'created_at'},
+      { label: 'Full Name', key: 'name' },
+      { label: 'Email or Phone', key: 'email_or_phone' },
+      { label: 'Message', key: 'message' },
+      { label: 'Status', key: 'status' }
     ]
   },
   tbody: {

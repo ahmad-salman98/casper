@@ -1,0 +1,29 @@
+{
+  "nav_tabs": {
+    "users": "المستخدمين",
+    "drivers": "السائقين",
+    "cars": "السيارات",
+    "rides": "الرحلات",
+    "completed_rides": "الرحلات المكتملة",
+    "uncompleted_rides": "الرحلات الغير مكتملة",
+    "pending_rides": "الرحلات المعلقة",
+    "contact_messages": "رسائل التواصل",
+    "pending_messages": "رسائل التواصل المعلقة",
+    "in_contact_messages": "رسائل التواصل المعالجة",
+    "completed_messages": "رسائل التواصل المكتملة",
+    "sign_out": "تسجيل الخروج"
+  },
+  "users": {
+    "table_title": "قائمة المستخدمين",
+    "table_filter": "بحث على رقم الهاتف",
+    "table_headers": {
+      "id": "رقم الهوية",
+      "name": "الاسم الكامل",
+      "email": "البريد الالكتروني",
+      "mobile": "الهاتف",
+      "gender": "الجنس",
+      "birth_date": "تاريخ الميلاد",
+      "role": "الدور"
+    }
+  }
+}

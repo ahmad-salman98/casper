@@ -30,6 +30,9 @@ import { ReduxProvider } from 'src/redux/provider'
 import { useEffect } from 'react'
 import { firebaseCloudMessaging } from '../../utils/firebase'
 
+// ** Translation package import
+import { NextIntlProvider } from 'next-intl'
+
 const clientSideEmotionCache = createEmotionCache()
 
 // ** Pace Loader
@@ -106,13 +109,15 @@ const App = props => {
           <meta name='keywords' content='Material Design, MUI, Admin Template, React Admin Template' />
           <meta name='viewport' content='initial-scale=1, width=device-width' />
         </Head>
-        <SettingsProvider>
-          <SettingsConsumer>
-            {({ settings }) => {
-              return <ThemeComponent settings={settings}>{getLayout(<Component {...pageProps} />)}</ThemeComponent>
-            }}
-          </SettingsConsumer>
-        </SettingsProvider>
+        <NextIntlProvider messages={pageProps.messages}>
+          <SettingsProvider>
+            <SettingsConsumer>
+              {({ settings }) => {
+                return <ThemeComponent settings={settings}>{getLayout(<Component {...pageProps} />)}</ThemeComponent>
+              }}
+            </SettingsConsumer>
+          </SettingsProvider>
+        </NextIntlProvider>
       </CacheProvider>
     </ReduxProvider>
   )

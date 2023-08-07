@@ -7,6 +7,11 @@ module.exports = {
     esmExternals: false,
     jsconfigPaths: true // enables it for both jsconfig.json and tsconfig.json
   },
+  i18n: {
+    locales: ['en', 'ar'],
+    defaultLocale: 'en'
+  },
+
   webpack: config => {
     config.resolve.alias = {
       ...config.resolve.alias,

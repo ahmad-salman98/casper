@@ -68,6 +68,26 @@ const navigation = () => {
       path: '/rides/pending',
       openInNewTab: false
     },
+    { sectionTitle: 'Contact Messages' },
+    {
+      title: 'Pending Messages',
+      icon: AccountDetails,
+      path: '/contact/pending',
+      openInNewTab: false
+    },
+    {
+      title: 'In-Contact Messages',
+      icon: AccountDetails,
+      path: '/contact/in_contact',
+      openInNewTab: false
+    },
+    {
+      title: 'Completed Messages',
+      icon: AccountDetails,
+      path: '/contact/completed',
+      openInNewTab: false
+    },
+
     {
       sectionTitle: ' Sign out'
     },

@@ -1,0 +1,30 @@
+{
+  // i need you to translate the keys values to english
+  "nav_tabs": {
+    "users": "Users",
+    "drivers": "Drivers",
+    "cars": "Cars",
+    "rides": "Rides",
+    "completed_rides": "Completed Rides",
+    "uncompleted_rides": "Uncompleted Rides",
+    "pending_rides": "Pending Rides",
+    "contact_messages": "Contact Messages",
+    "pending_messages": "Pending Messages",
+    "in_contact_messages": "In-Contact Messages",
+    "completed_messages": "Completed Messages",
+    "sign_out": "Sign Out"
+  },
+  "users": {
+    "table_title": "Users Table",
+    "table_filter": "Filter By Phone Number",
+    "table_headers": {
+      "id": "ID",
+      "name": "Full Name",
+      "email": "Email",
+      "mobile": "Mobile Number",
+      "gender": "Gender",
+      "birth_date": "Birth Date",
+      "role": "Role"
+    }
+  }
+}
